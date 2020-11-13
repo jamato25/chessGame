@@ -1,0 +1,10 @@
+body{
+  background-color: black;
+  color: white;
+  font-family: Verdana;
+  text-align:center;
+}
+#boardContainer{
+  display: flex;
+  justify-content:center;
+}

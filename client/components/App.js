@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import Chessboard from "chessboardjsx"
 import Chess from "chess.js"
 import Speech from "./Speech"
-import {possibleMoves} from "./alignCommandToMove";
+import {possibleMoves} from "../alignCommandToMove";
 
 class App extends Component {
   constructor(){
@@ -11,8 +11,7 @@ class App extends Component {
       newGame: 'true',
       fen: "start",
       nextMove: "",
-      turn: 'w',
-      voiceCommand: ''
+      turn: 'w'
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,11 +35,12 @@ class App extends Component {
     }
   }
 
+  // getVoiceCommand(command){
+  //     this.setState({nextMove: command})
+
+  // }
   getVoiceCommand(command){
-    if(this.state.nextMove===''){
-      console.log(command)
-      this.setState({nextMove: command})
-    }
+    this.move(command);
   }
 
   handleChange(ev) {
@@ -49,16 +49,8 @@ class App extends Component {
     })
   }
 
-  // handleSubmit(ev){
-  //   ev.preventDefault()
-  //   this.move(this.state.nextMove)
-  //   this.setState({
-  //     nextMove: '',
-  //   })
-  // }
     handleSubmit(ev){
     ev.preventDefault()
-
     this.move(this.state.nextMove)
     this.setState({
       nextMove: '',
@@ -68,14 +60,20 @@ class App extends Component {
   render() {
     const {fen, nextMove, turn} = this.state;
     const {handleSubmit, handleChange} = this
+    console.log(this.state)
     return (
       <div>
         <h3>It is {turn}'s turn</h3>
-        <Chessboard position = {fen}/>
+        <h3>Voice Command Format</h3>
+        <div>Moving a piece: 'Move pawn to E4'</div>
+        <div>Taking a piece: 'Take bishop on E4 with Queen on C5'</div>
+        <div id = "boardContainer">
+          <Chessboard position = {fen} id = "board"/>
+        </div>
         <Speech getVoiceCommand = {this.getVoiceCommand}/>
         <form onSubmit = {handleSubmit}>
-          {/* <label htmlFor = "nextMove" >Next Move:</label>
-              <input name = "nextMove" value = {nextMove} onChange = {handleChange} required /> */}
+          <label htmlFor = "nextMove" >Next Move:</label>
+              <input name = "nextMove" value = {nextMove} onChange = {handleChange} required />
           <button >Move</button>
         </form>
 

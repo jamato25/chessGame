@@ -1,6 +1,6 @@
 import React from 'react'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-import {parseCommand, convertToSAN} from './alignCommandToMove'
+import {parseCommand, convertToSAN} from '../alignCommandToMove'
 
 const Speech = ({getVoiceCommand}) => {
   const { transcript, finalTranscript, resetTranscript } = useSpeechRecognition()
@@ -17,18 +17,24 @@ const Speech = ({getVoiceCommand}) => {
     return null
   }
 
-  const handleStop = () =>{
+  const handleSubmit = () =>{
     const command = parseCommand(transcript);
-    SpeechRecognition.stopListening
+    SpeechRecognition.stopListening()
     const nextMove = convertToSAN(command);
     getVoiceCommand(nextMove)
+    resetTranscript()
+  }
+
+  const clear = () =>{
+    SpeechRecognition.stopListening()
+    resetTranscript()
   }
 
   return (
     <div>
       <button onClick={SpeechRecognition.startListening }>Start</button>
-      <button onClick={handleStop}>Stop</button>
-      <button onClick={resetTranscript}>Reset</button>
+      <button onClick={handleSubmit}>Submit Move</button>
+      <button onClick={clear}>Clear</button>
       <div>{transcript}</div>
     </div>
   )

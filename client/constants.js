@@ -23,5 +23,5 @@ export const tiles = [
 ]
 
 export const actions = [
-  'move', 'capture', 'castle', 'pawnPromotion'
+  'move', 'take', 'castle', 'pawnPromotion'
 ]
