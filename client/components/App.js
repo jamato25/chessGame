@@ -31,7 +31,7 @@ class App extends Component {
       this.setState({fen: this.game.fen(), turn: this.game.turn()})
     }
     else{
-      console.log('invalid move')
+      alert('invalid move')
     }
   }
 
@@ -60,13 +60,18 @@ class App extends Component {
   render() {
     const {fen, nextMove, turn} = this.state;
     const {handleSubmit, handleChange} = this
-    console.log(this.state)
+    let check = '';
+    if(this.game){
+      console.log(this.game.in_check())
+      if(this.game.in_check()){check = "You are in Check!"}
+    }
+
     return (
       <div>
         <h3>It is {turn}'s turn</h3>
-        <h3>Voice Command Format</h3>
         <div>Moving a piece: 'Move pawn to E4'</div>
         <div>Taking a piece: 'Take bishop on E4 with Queen on C5'</div>
+        <h2 id = 'check'>{check}</h2>
         <div id = "boardContainer">
           <Chessboard position = {fen} id = "board"/>
         </div>
