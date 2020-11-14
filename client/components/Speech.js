@@ -35,7 +35,7 @@ const Speech = ({getVoiceCommand}) => {
       <button onClick={SpeechRecognition.startListening }>Start</button>
       <button onClick={handleSubmit}>Submit Move</button>
       <button onClick={clear}>Clear</button>
-      <div>{transcript}</div>
+      <div> Command: {transcript}</div>
     </div>
   )
 }

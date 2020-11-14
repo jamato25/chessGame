@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Chessboard from "chessboardjsx"
 import Chess from "chess.js"
 import Speech from "./Speech"
+import socket from "../sockets"
 
 class App extends Component {
   constructor(){
@@ -10,7 +11,8 @@ class App extends Component {
       newGame: 'true',
       fen: "start",
       nextMove: "",
-      turn: 'w'
+      turn: 'w',
+      boardOrientation: 'white'
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,14 +25,21 @@ class App extends Component {
       this.game = new Chess()
       this.state.newGame = 'false';
     }
+    socket.on("move", data => {
+        this.move(data)
+    });
+    socket.on("player2", data => {
+      this.setState(data)
+  });
   }
 
   move(move){
     if(this.game.move(move)){
       this.setState({fen: this.game.fen(), turn: this.game.turn()})
+      socket.emit("move", move)
     }
     else{
-      alert('invalid move')
+      console.log('invalid move')
     }
   }
 
@@ -44,7 +53,7 @@ class App extends Component {
     })
   }
 
-    handleSubmit(ev){
+  handleSubmit(ev){
     ev.preventDefault()
     this.move(this.state.nextMove)
     this.setState({
@@ -53,12 +62,11 @@ class App extends Component {
   }
 
   render() {
-    const {fen, nextMove, turn} = this.state;
+    const {fen, nextMove, turn, boardOrientation} = this.state;
     const {handleSubmit, handleChange} = this
     let check = '';
     let move = '';
     if(this.game){
-      console.log(this.game.in_check())
       if(this.game.in_check()){check = "You are in Check!"}
     }
 
@@ -71,7 +79,7 @@ class App extends Component {
         <div>Taking a piece: 'Take bishop on E4 with Queen on C5'</div>
         <h2 id = 'check'>{check}</h2>
         <div id = "boardContainer">
-          <Chessboard position = {fen} id = "board" />
+          <Chessboard position = {fen} id = "board" orientation = {boardOrientation}/>
         </div>
         <Speech getVoiceCommand = {this.getVoiceCommand}/>
         <form onSubmit = {handleSubmit}>
