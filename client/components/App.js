@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Chessboard from "chessboardjsx"
 import Chess from "chess.js"
 import Speech from "./Speech"
-import {possibleMoves} from "../alignCommandToMove";
 
 class App extends Component {
   constructor(){
@@ -35,10 +34,6 @@ class App extends Component {
     }
   }
 
-  // getVoiceCommand(command){
-  //     this.setState({nextMove: command})
-
-  // }
   getVoiceCommand(command){
     this.move(command);
   }
