@@ -6,6 +6,10 @@ socket.on("connect", () => {
   console.log("Connected!");
 });
 
-socket.emit("room", { roomCode: "room1" });
+socket.emit("newRoom", { roomCode: newRoomGenerator() });
 
+
+function newRoomGenerator(){
+  return Math.random()*100000000000000;
+}
 export default socket;
