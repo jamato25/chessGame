@@ -25,7 +25,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-speech-recognition": "^3.3.0"
+    "react-speech-recognition": "^3.3.0",
+    "socket.io": "^3.0.1",
+    "socket.io-client": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 app.use(require('express').json());
 const morgan = require('morgan')
-const path = require('path')
+const path = require('path');
+const socketio = require('socket.io');
 
 app.use(morgan('dev'))
 
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'))
 })
+
 
 //500 handler
 app.use((err, req, res, next) => {
@@ -35,7 +37,9 @@ const port = process.env.PORT || 3035;
 
 const init = () => {
   try {
-    app.listen(port, () => console.log(`listening on port ${port}`));
+    const server = app.listen(port, () => console.log(`listening on port ${port}`));
+    const io = socketio(server);
+    require("./sockets")(io);
   }
   catch (err) {
     console.log(err);
@@ -43,3 +47,4 @@ const init = () => {
 }
 
 init();
+
