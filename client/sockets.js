@@ -6,6 +6,6 @@ socket.on("connect", () => {
   console.log("Connected!");
 });
 
-socket.emit("room", { roomCode: "sadasdsadas" });
+socket.emit("room", { roomCode: "room1" });
 
 export default socket;

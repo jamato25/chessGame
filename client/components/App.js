@@ -12,7 +12,7 @@ class App extends Component {
       fen: "start",
       nextMove: "",
       turn: 'w',
-      game: {}
+      boardOrientation: 'white'
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,18 +26,20 @@ class App extends Component {
       this.state.newGame = 'false';
     }
     socket.on("move", data => {
-        console.log(this.game)
-        this.setState(data)
+        this.move(data)
     });
+    socket.on("player2", data => {
+      this.setState(data)
+  });
   }
 
   move(move){
     if(this.game.move(move)){
       this.setState({fen: this.game.fen(), turn: this.game.turn()})
-      socket.emit("move", {fen: this.game.fen(), turn: this.game.turn()})
+      socket.emit("move", move)
     }
     else{
-      alert('invalid move')
+      console.log('invalid move')
     }
   }
 
@@ -60,7 +62,7 @@ class App extends Component {
   }
 
   render() {
-    const {fen, nextMove, turn} = this.state;
+    const {fen, nextMove, turn, boardOrientation} = this.state;
     const {handleSubmit, handleChange} = this
     let check = '';
     if(this.game){
@@ -74,7 +76,7 @@ class App extends Component {
         <div>Taking a piece: 'Take bishop on E4 with Queen on C5'</div>
         <h2 id = 'check'>{check}</h2>
         <div id = "boardContainer">
-          <Chessboard position = {fen} id = "board"/>
+          <Chessboard position = {fen} id = "board" orientation = {boardOrientation}/>
         </div>
         <Speech getVoiceCommand = {this.getVoiceCommand}/>
         <form onSubmit = {handleSubmit}>
