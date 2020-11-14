@@ -8,7 +8,7 @@
     "start-server": "nodemon server/index.js -e html,js,css --ignore public",
     "build": "webpack",
     "build-watch": "webpack -w",
-    "start": "echo 'Running server for production - developers, use npm run start-dev for development'  && npm run seed & node server/index.js "
+    "start": "echo 'Running server for production - developers, use npm run start-dev for development'  && node server/index.js "
   },
   "author": "",
   "license": "ISC",

@@ -18,6 +18,7 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getVoiceCommand = this.getVoiceCommand.bind(this);
+    this.newGame = this.newGame.bind(this);
   }
 
   componentDidMount(){
@@ -61,9 +62,18 @@ class App extends Component {
     })
   }
 
+  newGame(){
+    this.game = new Chess()
+    this.setState({
+      fen: "start",
+      nextMove: "",
+      turn: 'w',
+    });
+  }
+
   render() {
     const {fen, nextMove, turn, boardOrientation} = this.state;
-    const {handleSubmit, handleChange} = this
+    const {handleSubmit, handleChange, newGame} = this
     let check = '';
     let move = '';
     if(this.game){
@@ -72,6 +82,7 @@ class App extends Component {
 
     if(turn === 'w'){move = 'white'}
     if(turn === 'b'){move = 'black'}
+    console.log(fen)
     return (
       <div>
         <h3>It is {move}'s turn</h3>
@@ -87,6 +98,7 @@ class App extends Component {
               <input name = "nextMove" value = {nextMove} onChange = {handleChange} required />
           <button >Move</button>
         </form>
+        <button onClick = {newGame}>New Game</button>
 
       </div>
     )
