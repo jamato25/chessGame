@@ -14,7 +14,7 @@ module.exports = (io) => {
     });
 
     socket.on("move", (data) => {
-      console.log('hello')
+      io.emit('move', data)
     })
   });
 

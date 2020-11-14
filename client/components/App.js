@@ -11,7 +11,8 @@ class App extends Component {
       newGame: 'true',
       fen: "start",
       nextMove: "",
-      turn: 'w'
+      turn: 'w',
+      game: {}
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,13 +25,16 @@ class App extends Component {
       this.game = new Chess()
       this.state.newGame = 'false';
     }
-    socket.on("move", data => this.move(data));
+    socket.on("move", data => {
+        console.log(this.game)
+        this.setState(data)
+    });
   }
 
   move(move){
     if(this.game.move(move)){
       this.setState({fen: this.game.fen(), turn: this.game.turn()})
-      socket.emit("move", move)
+      socket.emit("move", {fen: this.game.fen(), turn: this.game.turn()})
     }
     else{
       alert('invalid move')
@@ -60,7 +64,6 @@ class App extends Component {
     const {handleSubmit, handleChange} = this
     let check = '';
     if(this.game){
-      console.log(this.game.in_check())
       if(this.game.in_check()){check = "You are in Check!"}
     }
 
