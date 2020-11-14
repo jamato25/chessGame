@@ -65,13 +65,16 @@ class App extends Component {
     const {fen, nextMove, turn, boardOrientation} = this.state;
     const {handleSubmit, handleChange} = this
     let check = '';
+    let move = '';
     if(this.game){
       if(this.game.in_check()){check = "You are in Check!"}
     }
 
+    if(turn === 'w'){move = 'white'}
+    if(turn === 'b'){move = 'black'}
     return (
       <div>
-        <h3>It is {turn}'s turn</h3>
+        <h3>It is {move}'s turn</h3>
         <div>Moving a piece: 'Move pawn to E4'</div>
         <div>Taking a piece: 'Take bishop on E4 with Queen on C5'</div>
         <h2 id = 'check'>{check}</h2>

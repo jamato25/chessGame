@@ -4,7 +4,7 @@ module.exports = (io) => {
 
     connections.push(socket.id);
     console.log(connections)
-    if(connections.length>1){
+    if(connections.length%2 ===0){
       socket.emit('player2', {boardOrientation: 'black'})
     }
     console.log(
